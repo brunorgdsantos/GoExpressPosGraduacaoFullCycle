@@ -1,5 +1,6 @@
 package main /*Com exceção do pagote main, todos os outros arquivos segue
-o mesmo nome de package igual ao diretorio em que eles estão incluidos. */
+o mesmo nome de package igual ao diretorio em que eles estão incluidos.
+Se não for o nome do diretorio, o nome deve ser maim!*/
 
 import "fmt"
 
