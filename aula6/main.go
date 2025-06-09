@@ -6,7 +6,7 @@ import (
 
 func main() {
 	s := []int{10, 20, 30, 40, 50, 60, 70, 80, 100} /*Não é um Array, é um Slice. Para identificar
-	basta ver o [] vazio. Se fosse Array teria um valore dentro de [].
+	basta ver o [] vazio. Se fosse Array teria um valor dentro de [].
 	Slices podem ser dinamicos, Array são estaticos em relação ao tamanho.*/
 	fmt.Printf("len=%d cap=%d %v \n", len(s), cap(s), s)
 	fmt.Printf("len=%d cap=%d %v \n", len(s[:0]), cap(s[:0]), s[:0])
