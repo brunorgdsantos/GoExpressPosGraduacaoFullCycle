@@ -20,6 +20,11 @@ type Cliente struct { //Struct são estruturas de valores conjuntos
 	end      Endereco //Posso definir um nome de tipo Endereço
 }
 
+func (c Cliente) desativar() { //Essa func é do tipo Cliente
+	c.ativo = false //Estou chamando c é que do tipo Cliente
+	fmt.Printf("Ver se chegou aqui!!!\n")
+}
+
 func main() {
 	teste := Cliente{
 		nome:  "Bruno",
@@ -46,4 +51,6 @@ func main() {
 	teste.end.Numero = 10
 	teste.end.Cidade = "João Pessoa"
 	teste.end.Estado = "PB"
+
+	teste.desativar() //teste é do tipo Cliente, então posso acessar a func da linha 23
 }
