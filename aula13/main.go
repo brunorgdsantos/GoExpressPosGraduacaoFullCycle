@@ -20,4 +20,5 @@ func main() {
 	fmt.Println(soma(minhaVar1, minhaVar2))
 
 	fmt.Println(somaUsandoPonteiro(&minhaVar1, &minhaVar2))
+	fmt.Println(minhaVar1, minhaVar2)
 }
