@@ -6,9 +6,18 @@ type Cliente struct {
 	nome string
 }
 
+type Conta struct {
+	saldo float64
+}
+
 func (c Cliente) andou() {
-	c.nome = "Cliente Teste"
-	fmt.Printf("O cliente %v andou!", c.nome)
+	c.nome = "Albert Einstein"
+	fmt.Printf("O cliente %v andou!\n", c.nome)
+}
+
+func (d Conta) simular(valor float64) float64 {
+	d.saldo += valor
+	return d.saldo
 }
 
 func main() {
@@ -16,5 +25,12 @@ func main() {
 		nome: "Bill",
 	}
 
+	fmt.Printf("O valor da Struct com nome %v\n", Cliente{nome: "Bill"})
+	fmt.Printf("O valor da Struct com nome %v\n", teste.nome)
 	teste.andou()
+
+	conta := Conta{saldo: 100}
+	conta.simular(2000)
+	fmt.Println(conta.saldo)
+	fmt.Println(conta.simular(0))
 }
