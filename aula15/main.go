@@ -7,8 +7,8 @@ type Test interface {
 }
 
 func main() {
-	var x interface{} = 10
-	var y interface{} = "Hello World"
+	var x interface{} = 10            //Interface vazia
+	var y interface{} = "Hello World" //Interface vazia
 
 	showType(x)
 	showType(y)
