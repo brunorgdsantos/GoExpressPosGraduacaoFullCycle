@@ -10,7 +10,7 @@ type Conta struct {
 	saldo float64
 }
 
-func NewConta() *Conta { //Structs são muito usadas quando vc quer garantir que ao mudar o valor de uma variável, ela seja alterar em TODOS os lugares
+func NewConta() *Conta { //Ponteiros são muito usadas quando vc quer garantir que ao mudar o valor de uma variável, ela seja alterar em TODOS os lugares
 	return &Conta{saldo: 0}
 }
 
