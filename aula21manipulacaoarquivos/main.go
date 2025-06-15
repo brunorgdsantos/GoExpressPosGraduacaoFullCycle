@@ -42,5 +42,10 @@ func main() {
 		}
 	}
 
+	err = os.Remove("arquivo.txt") //Usando para remover arquivos
+	if err != nil {
+		panic(err)
+	}
+
 	file.Close()
 }
