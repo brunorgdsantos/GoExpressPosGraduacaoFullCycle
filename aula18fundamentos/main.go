@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/brunorgdsantos/GoExpressPosGraduacaoFullCycle/aula18/matematica"
+	"github.com/brunorgdsantos/GoExpressPosGraduacaoFullCycle/aula18fundamentos/matematica"
 )
 
 func main() {
