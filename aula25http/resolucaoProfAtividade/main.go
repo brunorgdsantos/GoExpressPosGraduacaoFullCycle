@@ -2,10 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
-	"os"
 )
 
 type ViaCep struct {
@@ -30,7 +28,7 @@ func main() {
 }
 
 func BuscaCep(w http.ResponseWriter, r *http.Request) { //r *http.Request chama as requests, w http.ResponseWriter chama as responses
-	if r.URL.Path != "/" { //Se for passando algo na url diferente de "/" retornara erro
+	if r.URL.Path != "/" {                              //Se for passando algo na url diferente de "/" retornara erro
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -41,36 +39,40 @@ func BuscaCep(w http.ResponseWriter, r *http.Request) { //r *http.Request chama 
 		return
 	}
 
-	dataCep := ConsultaCepViaCepResolucaoPessoal(cepParam)
-
+	dataCep, error := ProcurandoCep(cepParam)
+	if error != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json") //Definindo como deve ser o retorno
-	//w.WriteHeader(http.StatusOK)                       //Definindo que o status deve ser 200
-	//w.Write([]byte("TESTE"))                      //Escrevendo na tela
+	w.WriteHeader(http.StatusOK)                       //Definindo que o status deve ser 200
+	json.NewEncoder(w).Encode(dataCep)                 //Essa linha resume tudo feito entre as linhas 51 a 56
 
-	jsonData, err := json.Marshal(dataCep)
+	/*resul, err := json.Marshal(cep)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-	} else {
-		w.WriteHeader(http.StatusOK)
-		w.Write(jsonData)
+		return
 	}
+	w.Write(resul)*/
 }
 
-func ConsultaCepViaCepResolucaoPessoal(cep string) ViaCep {
-	req, err := http.Get("http://viacep.com.br/ws/" + cep + "/json")
+func ProcurandoCep(cep string) (*ViaCep, error) {
+	resp, err := http.Get("http://viacep.com.br/ws/" + cep + "/json")
 	if err != nil { //Tratando erro
-		fmt.Fprintf(os.Stderr, "Erro ao fazer a requisição: %v", err)
+		return nil, err
 	}
 
-	res, err := io.ReadAll(req.Body)
+	defer resp.Body.Close() //Irá executar por último
+
+	body, err := io.ReadAll(resp.Body) //Lendo o Body
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Erro ao ler a resposta: %v", err)
+		return nil, err
 	}
 
 	var data ViaCep
-	err = json.Unmarshal(res, &data) //Transformando de Json para Struct
+	err = json.Unmarshal(body, &data) //Transformando de Json para Struct
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Erro ao fazer o parce da resposta: %v", err)
+		return nil, err
 	}
-	return data
+	return &data, nil
 }
