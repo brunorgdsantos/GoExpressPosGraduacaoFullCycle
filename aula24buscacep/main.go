@@ -45,7 +45,7 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Erro ao fazer o parce da resposta: %v", err)
 		}
 
-		fmt.Println(data) //Imprimindo todos os dados da Struc
+		fmt.Println(data) //Imprimindo todos os dados da Struct
 
 		file, err := os.Create("cidade.txt") //Criando arquivo para salvar as informações
 		if err != nil {
