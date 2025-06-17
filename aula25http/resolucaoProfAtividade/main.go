@@ -28,7 +28,7 @@ func main() {
 }
 
 func BuscaCep(w http.ResponseWriter, r *http.Request) { //r *http.Request chama as requests, w http.ResponseWriter chama as responses
-	if r.URL.Path != "/" {                              //Se for passando algo na url diferente de "/" retornara erro
+	if r.URL.Path != "/" { //Se for passando algo na url diferente de "/" retornara erro
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
