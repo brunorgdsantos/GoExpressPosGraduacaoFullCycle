@@ -18,7 +18,6 @@ func main() {
 		err := t.Execute(w, Cursos{
 			{"Go", 40},
 			{"Java", 20},
-			{"JS", 10},
 		})
 		if err != nil {
 			panic(err)
