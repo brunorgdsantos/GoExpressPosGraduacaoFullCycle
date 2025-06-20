@@ -10,8 +10,8 @@
         <tbody>
             {{ range . }}
             <tr>
-                <th>{{ .Nome}}</th>
-                <th>{{ .CargaHoraria}}</th>
+                <th>{{ .Nome | ToUpper}}</th>
+                <th>{{ .CargaHoraria }}</th>
             </tr>
             {{ end }}
         </tbody>
