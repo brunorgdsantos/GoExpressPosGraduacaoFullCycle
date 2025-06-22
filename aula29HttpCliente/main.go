@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	c := http.Client{Timeout: time.Microsecond} //Tempo limite de espera de resposta
+	c := http.Client{Timeout: time.Second} //Tempo limite de espera de resposta
 	resp, err := c.Get("http://google.com")
 	if err != nil {
 		panic(err)
@@ -20,4 +20,5 @@ func main() {
 		panic(err)
 	}
 	println(string(body))
+
 }

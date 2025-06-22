@@ -21,9 +21,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	select {
 	case <-time.After(5 * time.Second):
 		log.Println("Request Processada com Sucesso!")                       //Esse log imprime no stdout/command line
-		w.Write([]byte("Request processada com sucesso - Mensagem Server!")) //Esse mensagem imprime no LocalHost/Browser
+		w.Write([]byte("Request processada com sucesso - Mensagem Browser")) //Esse mensagem imprime no LocalHost/Browser
 	case <-ctx.Done():
-		log.Println("Request cancelada pelo Client!")                             //Imprime no command line
 		http.Error(w, "Request cancelada pelo Client", http.StatusRequestTimeout) //Imprime no Browser
+		log.Println("Request cancelada pelo Client!")                             //Imprime no command line
 	}
 }
