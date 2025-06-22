@@ -28,8 +28,14 @@ func main() {
 	}
 	defer db.Close()
 
-	produto := NewProduct("Notebook", 1240.0)
+	produto := NewProduct("Notebook", 1240.0) //Inserindo dados no Banco
 	err = insertProduct(db, produto)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	produto.Price = 100.0
+	err = updateProduct(db, produto)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,6 +50,21 @@ func insertProduct(db *sql.DB, product *Product) error { //Inserindo dados no Ba
 	defer stmt.Close()
 
 	_, err = stmt.Exec(product.ID, product.Name, product.Price) //(product.ID, product.Name, product.Price) vão substituir as (?,?,?) da linha 35
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func updateProduct(db *sql.DB, product *Product) error {
+	stmt, err := db.Prepare("Update products set Name = ?,Price = ? where ID = ?") //Segurança contra SQL Injection
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(product.Name, product.Price, product.ID) //(product.ID, product.Name, product.Price) vão substituir as (?,?,?) da linha 35
 	if err != nil {
 		return err
 	}
