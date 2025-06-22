@@ -56,7 +56,7 @@ func insertProduct(db *sql.DB, product *Product) error { //Inserindo dados no Ba
 	return nil
 }
 
-func updateProduct(db *sql.DB, product *Product) error {
+func updateProduct(db *sql.DB, product *Product) error { //Atualizando dados do banco
 	stmt, err := db.Prepare("Update products set Name = ?,Price = ? where ID = ?") //Segurança contra SQL Injection
 	if err != nil {
 		return err
