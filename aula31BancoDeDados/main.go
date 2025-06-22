@@ -64,7 +64,22 @@ func updateProduct(db *sql.DB, product *Product) error { //Atualizando dados do 
 
 	defer stmt.Close()
 
-	_, err = stmt.Exec(product.Name, product.Price, product.ID) //(product.ID, product.Name, product.Price) vão substituir as (?,?,?) da linha 35
+	_, err = stmt.Exec(product.Name, product.Price, product.ID) //(product.ID, product.Name, product.Price) vão substituir as (?,?,?) da linha 60
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func selectOneProduct(db *sql.DB, id string) (*Product, error) { //Read Produtos, selecionando produtos
+	stmt, err := db.Prepare("select id, name, price from products where id = ?") //Segurança contra SQL Injection
+	if err != nil {
+		return err, nil
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(id)
 	if err != nil {
 		return err
 	}
