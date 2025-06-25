@@ -51,7 +51,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	for _, prod := range products {
+	for _, prod := range products { //chave e valor (_, prod)
 		fmt.Printf("Produto %v, possui o preço de %.2f", prod.Name, prod.Price)
 	}
 }
