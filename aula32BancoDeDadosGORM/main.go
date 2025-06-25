@@ -9,9 +9,10 @@ import (
 // Para iniciar os modulos: go mod init github.com/brunorgdsantos/GoExpressPosGraduacaoFullCycle
 // Depois: go mod tidy
 type Product struct {
-	ID    int     `gorm:"primary_key,AUTO_INCREMENT"`
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
+	ID         int     `gorm:"primary_key,AUTO_INCREMENT"`
+	Name       string  `json:"name"`
+	Price      float64 `json:"price"`
+	gorm.Model         //Cria algumas colunas a mais no banco
 }
 
 func main() {
@@ -73,4 +74,5 @@ func main() {
 	fmt.Println(p.Name)
 
 	db.Delete(&p) //Removendo dados
+
 }
