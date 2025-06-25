@@ -42,8 +42,8 @@ func main() {
 	db.First(&produto, "name = ?", "TV") //Retornando o produto com name=TV
 	fmt.Println(produto)
 
-	var produts []Product //Retornando todos os produtos
-	db.Find(&produts)
+	var products []Product //Retornando todos os produtos
+	db.Find(&products)
 	for _, product := range products {
 		fmt.Println(product)
 	}
