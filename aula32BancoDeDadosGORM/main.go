@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -27,10 +28,23 @@ func main() {
 		Price: 2200.00,
 	})
 
-	products := []Product{
+	products := []Product{ //Criado varios produtos de uma vez
 		{Name: "TV", Price: 2600.00},
 		{Name: "Teclado", Price: 100.00},
 		{Name: "Mouse", Price: 200.00},
 	}
 	db.Create(&products)
+
+	var produto Product
+	db.First(&produto, 7) //Retornando o produto com id=7
+	fmt.Println(produto)
+
+	db.First(&produto, "name = ?", "TV") //Retornando o produto com name=TV
+	fmt.Println(produto)
+
+	var produts []Product //Retornando todos os produtos
+	db.Find(&produts)
+	for _, product := range products {
+		fmt.Println(product)
+	}
 }
