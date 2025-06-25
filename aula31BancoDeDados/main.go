@@ -54,6 +54,11 @@ func main() {
 	for _, prod := range products { //chave e valor (_, prod)
 		fmt.Printf("Produto %v, possui o preço de %.2f", prod.Name, prod.Price)
 	}
+
+	err = deleteProduct(db, produto.ID)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func insertProduct(db *sql.DB, product *Product) error { //Inserindo dados no Banco
@@ -120,4 +125,18 @@ func selectAllProducts(db *sql.DB) ([]Product, error) {
 		products = append(products, p)
 	}
 	return products, nil
+}
+
+func deleteProduct(db *sql.DB, id string) error {
+	stmt, err := db.Prepare("delete from products where ID = ?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
