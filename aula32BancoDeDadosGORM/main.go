@@ -42,27 +42,35 @@ func main() {
 	db.First(&produto, "name = ?", "TV") //Retornando o produto com name=TV
 	fmt.Println(produto)
 
-	var products []Product //Retornando todos os produtos
+	//var products []Product //Retornando todos os produtos
 	db.Find(&products)
 	for _, product := range products {
 		fmt.Println(product)
 	}
 
-	var products Product
+	//var products Product
 	db.Limit(3).Offset(2).Find(&products) //O Limit serve para limiter o numero de registros a serem retornados
 	for _, product := range products {    //O offset vai dividir o numero de registro em paginas. 3 registro serão apresentado na primeira pagina, outros 3 na segunda e assim por diante
 		fmt.Println(product)
 	}
 
-	var products []Product
+	//var products []Product
 	db.Where("price > ?", 100).Find(&products) //Where("price > ?", 100) vai retornar todos os valores de prince maior que 100
 	for _, product := range products {
 		fmt.Println(product)
 	}
 
-	var product []Product
+	//var product []Product
 	db.Where("price LIKE ?", "%book").Find(&products) //Lista os produtos que tem book no nome
 	for _, product := range products {
 		fmt.Println(product)
 	}
+
+	var p Product
+	db.First(&p, 7) //Alterando valores usando GORM
+	p.Name = "TESTE"
+	db.Save(&p)
+	fmt.Println(p.Name)
+
+	db.Delete(&p) //Removendo dados
 }
