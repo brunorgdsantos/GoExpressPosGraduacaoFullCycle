@@ -47,4 +47,22 @@ func main() {
 	for _, product := range products {
 		fmt.Println(product)
 	}
+
+	var products Product
+	db.Limit(3).Offset(2).Find(&products) //O Limit serve para limiter o numero de registros a serem retornados
+	for _, product := range products {    //O offset vai dividir o numero de registro em paginas. 3 registro serão apresentado na primeira pagina, outros 3 na segunda e assim por diante
+		fmt.Println(product)
+	}
+
+	var products []Product
+	db.Where("price > ?", 100).Find(&products) //Where("price > ?", 100) vai retornar todos os valores de prince maior que 100
+	for _, product := range products {
+		fmt.Println(product)
+	}
+
+	var product []Product
+	db.Where("price LIKE ?", "%book").Find(&products) //Lista os produtos que tem book no nome
+	for _, product := range products {
+		fmt.Println(product)
+	}
 }
