@@ -34,15 +34,21 @@ func main() {
 	db.Create(&Category)
 
 	db.Create(&Product{ //Criando Produto
-		Name:       "Samsung TV",
-		Price:      42.0,
-		CategoryID: Category.ID,
+		Name:       "Dell",
+		Price:      30.0,
+		CategoryID: Category.ID, //Passando o Id da Categoria
 	})
 
 	var products []Product
-	db.First(&products)
+	db.Find(&products)
 	for _, product := range products {
-		fmt.Println(product)
+		fmt.Println(product.Name, product.Category.Name)
+	}
+
+	var products []Product
+	db.Preload("Category").Find(&products) //O Preload traz alguma informações a mais
+	for _, product := range products {
+		fmt.Println(product.Name, product.Category.Name)
 	}
 
 }
