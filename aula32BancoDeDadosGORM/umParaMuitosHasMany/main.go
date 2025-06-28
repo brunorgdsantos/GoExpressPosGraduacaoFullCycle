@@ -13,12 +13,19 @@ type Category struct {
 }
 
 type Product struct {
-	ID         int      `gorm:"primary_key"`
-	Name       string   //`json:"name"`
-	Price      float64  //`json:"price"`
-	CategoryID int      //`json:"category_id"` //Estamos relacionando duas tabelas
-	Category   Category //Estamos relacionando duas tabelas
+	ID           int      `gorm:"primary_key"`
+	Name         string   //`json:"name"`
+	Price        float64  //`json:"price"`
+	CategoryID   int      //`json:"category_id"` //Estamos relacionando duas tabelas
+	Category     Category //Estamos relacionando duas tabelas
+	SerialNumber SerialNumber
 	//gorm.Model                //Cria algumas colunas a mais no banco
+}
+
+type SerialNumber struct {
+	ID        int
+	Number    string
+	ProductID int
 }
 
 func main() {
@@ -27,7 +34,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(&Product{}, &Category{}) //Cria as tabelas
+	db.AutoMigrate(&Product{}, &Category{}, SerialNumber{}) //Cria as tabelas
 
 	category := Category{ //Criando Categorias
 		Name: "Cozinha",
@@ -41,15 +48,20 @@ func main() {
 	})
 
 	var categories []Category
-	err = db.Model(&Category{}).Preload("Products").Find(&categories).Error
+	err = db.Model(&Category{}).Preload("Products").Preload("Products.SerialNumber").Find(&categories).Error //Observe o Products.SerialNumber
 	if err != nil {
 		panic(err)
 	}
 
+	db.Create(&SerialNumber{
+		Number:    "123",
+		ProductID: 1,
+	})
+
 	for _, category := range categories {
-		fmt.Println("TESTE 1:", category.Name)
+		fmt.Println("TESTE 1: ", category.Name)
 		for _, product := range category.Products {
-			fmt.Println("TESTE 2:", product.Name, category.Name)
+			fmt.Println("TESTE 2: ", product.Name, category.Name, "SERIAL NUMBER: ", product.SerialNumber.Number)
 		}
 	}
 
