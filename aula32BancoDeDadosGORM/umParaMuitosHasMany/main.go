@@ -9,23 +9,16 @@ import (
 type Category struct {
 	ID       int `gorm:"primarykey"`
 	Name     string
-	Products []Product
+	Products []Product //Uma categoria pode ter muitos produtos mas um produto tem apenas uma categoria
 }
 
 type Product struct {
-	ID           int          `gorm:"primary_key"`
-	Name         string       //`json:"name"`
-	Price        float64      //`json:"price"`
-	CategoryID   int          //`json:"category_id"` //Estamos relacionando duas tabelas
-	Category     Category     //Estamos relacionando duas tabelas
-	SerialNumber SerialNumber //`gorm:"foreignKey:ProductID"` //Relacionando Product com SerialNumber
+	ID         int      `gorm:"primary_key"`
+	Name       string   //`json:"name"`
+	Price      float64  //`json:"price"`
+	CategoryID int      //`json:"category_id"` //Estamos relacionando duas tabelas
+	Category   Category //Estamos relacionando duas tabelas
 	//gorm.Model                //Cria algumas colunas a mais no banco
-}
-
-type SerialNumber struct {
-	ID        int `gorm:"primarykey"`
-	Number    string
-	ProductID int //Todos os SerialNumber terão um ProductId relacionados
 }
 
 func main() {
@@ -34,7 +27,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(&Product{}, &Category{}, &SerialNumber{}) //Cria as tabelas
+	db.AutoMigrate(&Product{}, &Category{}) //Cria as tabelas
 
 	category := Category{ //Criando Categorias
 		Name: "Cozinha",
@@ -47,19 +40,8 @@ func main() {
 		CategoryID: 1, //Passando o Id da Categoria
 	})
 
-	db.Create(&SerialNumber{ //Criado SerialNumber
-		Number:    "123",
-		ProductID: 1,
-	})
-
-	/*var products []Product
-	db.Preload("Category").Preload("SerialNumber").Find(&products) //O Preload traz alguma informações a mais
-	for _, product := range products {
-		fmt.Println(product.Name, product.Category.Name, product.SerialNumber.Number)
-	}*/
-
 	var categories []Category
-	err = db.Preload("Products").Find(&categories).Error
+	err = db.Model(&Category{}).Preload("Products").Find(&categories).Error
 	if err != nil {
 		panic(err)
 	}
@@ -67,7 +49,7 @@ func main() {
 	for _, category := range categories {
 		fmt.Println("TESTE 1:", category.Name)
 		for _, product := range category.Products {
-			fmt.Println("TESTE 2:", product.Name, product.Category.Name)
+			fmt.Println("TESTE 2:", product.Name, category.Name)
 		}
 	}
 
