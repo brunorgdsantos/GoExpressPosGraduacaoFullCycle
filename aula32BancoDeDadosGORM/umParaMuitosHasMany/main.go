@@ -13,10 +13,10 @@ type Category struct {
 }
 
 type Product struct {
-	ID           int          `gorm:"primary_key,AUTO_INCREMENT"`
-	Name         string       `json:"name"`
-	Price        float64      `json:"price"`
-	CategoryID   int          `json:"category_id"` //Estamos relacionando duas tabelas
+	ID           int          `gorm:"primary_key"`
+	Name         string       //`json:"name"`
+	Price        float64      //`json:"price"`
+	CategoryID   int          //`json:"category_id"` //Estamos relacionando duas tabelas
 	Category     Category     //Estamos relacionando duas tabelas
 	SerialNumber SerialNumber //`gorm:"foreignKey:ProductID"` //Relacionando Product com SerialNumber
 	//gorm.Model                //Cria algumas colunas a mais no banco
@@ -34,11 +34,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(&Category{}, &Product{}, &SerialNumber{}) //Cria as tabelas
+	db.AutoMigrate(&Product{}, &Category{}, &SerialNumber{}) //Cria as tabelas
 
-	db.Create(&Category{
-		Name: "Cama/Mesa",
-	})
+	category := Category{ //Criando Categorias
+		Name: "Cozinha",
+	}
+	db.Create(&category)
 
 	db.Create(&Product{ //Criando Produto
 		Name:       "Colchão",
@@ -66,7 +67,7 @@ func main() {
 	for _, category := range categories {
 		fmt.Println("TESTE 1:", category.Name)
 		for _, product := range category.Products {
-			fmt.Println("TESTE 2:", product.Name, product.Category)
+			fmt.Println("TESTE 2:", product.Name, product.Category.Name)
 		}
 	}
 
