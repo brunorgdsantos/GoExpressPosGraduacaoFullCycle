@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -37,18 +38,18 @@ func main() {
 		Price:      1050.0,
 		Categories: []Category{category, category2}, //Este Product pertence as duas categorias
 	})
-	/*
-		var categories []Category
-		err = db.Model(&Category{}).Preload("Products").Preload("Products.SerialNumber").Find(&categories).Error //Observe o Products.SerialNumber
-		if err != nil {
-			panic(err)
-		}
 
-		for _, category := range categories {
-			fmt.Println("TESTE 1: ", category.Name)
-			for _, product := range category.Products {
-				fmt.Println("TESTE 2: ", product.Name, category.Name)
-			}
-		}*/
+	var categories []Category
+	err = db.Model(&Category{}).Preload("Products").Find(&categories).Error
+	if err != nil {
+		panic(err)
+	}
+
+	for _, category := range categories {
+		fmt.Println(category.Name, ":")
+		for _, product := range category.Products {
+			fmt.Println("-", product.Name)
+		}
+	}
 
 }
