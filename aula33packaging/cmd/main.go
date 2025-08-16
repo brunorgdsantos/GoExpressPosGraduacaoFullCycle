@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
-import "github.com/brunorgdsantos/GoExpressPosGraduacaoFullCycle/aula33packaging/math"
+import (
+	"fmt"
+
+	"github.com/brunorgdsantos/GoExpressPosGraduacaoFullCycle/aula33packging/math
+)
 
 func main() {
 	fmt.Println("Hello World")
