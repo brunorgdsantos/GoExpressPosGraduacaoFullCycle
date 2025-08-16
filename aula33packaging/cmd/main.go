@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-
 	"github.com/brunorgdsantos/GoExpressPosGraduacaoFullCycle/aula33packging/math"
 )
 
